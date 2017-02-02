@@ -1,0 +1,23 @@
+#! /usr/bin/env python3
+
+#
+# Devuelve intercaz e IP
+# IMPORTANTE: Necesita netifaces (pip install netifaces)
+#
+#
+import os
+import stat
+from shutil import copyfile
+
+if __name__ == "__main__":
+    origin = os.path.dirname(os.path.realpath(__file__))+"/config/prepare-commit-msg"
+    cwd = os.getcwd()
+    hooks = cwd+"/.git/hooks"
+    destination = hooks+"/prepare-commit-msg"
+    exists = os.path.isdir(hooks)
+    if exists:
+        copyfile(origin,destination)
+        st = os.stat(destination)
+        os.chmod(destination,st.st_mode | stat.S_IEXEC)
+    else:
+        print("This is not a git repository")
